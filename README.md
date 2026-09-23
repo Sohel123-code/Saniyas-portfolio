@@ -59,3 +59,9 @@ node scripts/visual-qa.mjs
 ```
 
 Reports are written to the ignored `test-results/` directory. The portfolio respects reduced-motion preferences and includes keyboard navigation, visible focus indicators, and a skip link.
+
+## Page animations
+
+Every change of page plays a 2.6-second chapter transition: bowed lavender, apricot, and midnight curtains sweep across the screen, a dental emblem draws itself inside moving orbits, and a destination-specific title appears. The next page is mounted behind the curtain and revealed with a slow, staggered entrance. Backward navigation reverses the curtain direction.
+
+The transition controller lives in `src/PageTransition.jsx`; its `timing` object sets the cover, hold, and reveal durations. It handles browser history changes during animation, locks background interaction until the reveal completes, then restores keyboard focus. Same-page navigation does not replay the sequence. Reduced-motion preferences skip the curtain and its delay entirely.

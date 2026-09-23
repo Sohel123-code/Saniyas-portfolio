@@ -63,6 +63,7 @@ test("page navigation works and mobile menu closes after selection", async ({
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "A little about Saniya.",
   );
+  await expect(page.locator(".chapter-transition")).toHaveCount(0);
   await page.goBack();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "A curious mind.",
@@ -165,10 +166,11 @@ test("contact requires valid fields and prepares an email draft", async ({
 });
 
 test("core pages pass automated accessibility checks", async ({ page }) => {
+  // Audit the finished design, rather than sampling the middle of a slow fade.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   for (const route of routes) {
     await page.goto(route);
     await expect(page.locator("h1")).toBeVisible();
-    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.evaluate(async () => {
       for (let y = 0; y < document.body.scrollHeight; y += 550) {
         window.scrollTo(0, y);

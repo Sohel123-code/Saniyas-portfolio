@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
-import { AnimatePresence } from "motion/react";
+import { Link, Route, Routes } from "react-router-dom";
+import PageTransition from "./PageTransition";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -1072,22 +1072,23 @@ function NotFound() {
 }
 
 export default function App() {
-  const location = useLocation();
   return (
-    <>
-      <Header />
-      <AnimatePresence mode="wait" initial={false}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/clinical" element={<Clinical />} />
-          <Route path="/focus" element={<Focus />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AnimatePresence>
-      <Footer />
-    </>
+    <PageTransition>
+      {(displayLocation) => (
+        <>
+          <Header />
+          <Routes location={displayLocation} key={displayLocation.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/clinical" element={<Clinical />} />
+            <Route path="/focus" element={<Focus />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </>
+      )}
+    </PageTransition>
   );
 }

@@ -13,6 +13,7 @@ import {
   Minus,
 } from "lucide-react";
 import { navigation, pageTitles } from "./data";
+import { usePageTransition } from "./PageTransition";
 
 export function Tooth({ size = 28, ...props }) {
   return (
@@ -170,7 +171,11 @@ export function Reveal({ children, className = "", delay = 0, ...props }) {
       initial={reduced ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: reduced ? 0 : 1.1,
+        delay: reduced ? 0 : delay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       {...props}
     >
       {children}
@@ -181,21 +186,31 @@ export function Reveal({ children, className = "", delay = 0, ...props }) {
 export function Page({ children, className = "" }) {
   const { pathname } = useLocation();
   const reduced = useReducedMotion();
+  const { phase, isNavigating } = usePageTransition();
   useEffect(() => {
     document.title = `${pageTitles[pathname] || "Page not found"} | Mohamed Saniya Afreen`;
     window.scrollTo({ top: 0, behavior: "instant" });
-    const main = document.getElementById("main");
-    main?.focus({ preventScroll: true });
   }, [pathname]);
+  useEffect(() => {
+    if (!isNavigating)
+      document.getElementById("main")?.focus({ preventScroll: true });
+  }, [pathname, isNavigating]);
+  const leaving = phase === "cover" || phase === "hold";
   return (
     <motion.main
       id="main"
       tabIndex={-1}
-      className={className}
-      initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : -8 }}
-      transition={{ duration: reduced ? 0 : 0.26, ease: "easeOut" }}
+      className={`page-motion ${className}`}
+      initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 30 }}
+      animate={{
+        opacity: leaving && !reduced ? 0.15 : 1,
+        y: leaving && !reduced ? -22 : 0,
+      }}
+      transition={{
+        duration: reduced ? 0 : leaving ? 0.85 : 1.3,
+        delay: !reduced && phase === "reveal" ? 0.2 : 0,
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       {children}
     </motion.main>
