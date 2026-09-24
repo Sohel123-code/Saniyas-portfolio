@@ -191,14 +191,17 @@ export default function PageTransition({ children }) {
     const previous = document.body.style.overflow;
     const previousPadding = document.body.style.paddingRight;
     const previousGutter = document.documentElement.style.scrollbarGutter;
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = Math.max(
+      0,
+      window.innerWidth -
+        document.documentElement.getBoundingClientRect().width,
+    );
     // Keep the content width steady while letting the curtain cover the whole
     // viewport, including the space normally occupied by a desktop scrollbar.
+    document.documentElement.style.scrollbarGutter = "auto";
     if (scrollbarWidth > 0) {
       const padding =
         parseFloat(getComputedStyle(document.body).paddingRight) || 0;
-      document.documentElement.style.scrollbarGutter = "auto";
       document.body.style.paddingRight = `${padding + scrollbarWidth}px`;
     }
     document.body.style.overflow = "hidden";

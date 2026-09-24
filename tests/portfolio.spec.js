@@ -110,27 +110,33 @@ test("gallery filters, lightbox arrows, escape, and focus restoration work", asy
   page,
 }) => {
   await page.goto("/gallery");
+  await expect(page.locator(".gallery-card").first()).toContainText(
+    "Care, close to home",
+  );
+  await expect(page.locator(".gallery-card").first()).toContainText(
+    "her mother",
+  );
   await page.getByRole("button", { name: "Patient care", exact: true }).click();
-  await expect(page.locator(".gallery-card")).toHaveCount(2);
+  await expect(page.locator(".gallery-card")).toHaveCount(3);
   const opener = page.getByRole("button", {
-    name: "View photo: The human side of dentistry",
+    name: "View photo: Care, close to home",
   });
   await opener.click();
   const viewer = page.getByRole("dialog", {
     name: "Clinical activity photo viewer",
   });
   await expect(viewer).toBeVisible();
+  await expect(viewer.getByRole("heading")).toHaveText("Care, close to home");
+  await viewer.getByRole("button", { name: "Next photo" }).click();
   await expect(viewer.getByRole("heading")).toHaveText(
     "The human side of dentistry",
   );
-  await viewer.getByRole("button", { name: "Next photo" }).click();
+  await viewer.press("ArrowRight");
   await expect(viewer.getByRole("heading")).toHaveText(
     "Care is in the details",
   );
   await viewer.press("ArrowRight");
-  await expect(viewer.getByRole("heading")).toHaveText(
-    "The human side of dentistry",
-  );
+  await expect(viewer.getByRole("heading")).toHaveText("Care, close to home");
   await viewer.press("Escape");
   await expect(viewer).not.toBeVisible();
   await expect(opener).toBeFocused();
@@ -143,6 +149,9 @@ test("contact requires valid fields and prepares an email draft", async ({
   page,
 }) => {
   await page.goto("/contact");
+  await expect(
+    page.locator('.contact-method a[href="mailto:mdsaniyaafreen@gmail.com"]'),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Let’s start a conversation" })
     .click();

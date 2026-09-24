@@ -327,18 +327,51 @@ export function ClinicalCard({ area, index }) {
 }
 
 export function ConnectBand() {
+  const { pathname } = useLocation();
+  const invitations = {
+    "/about": {
+      label: "FROM THE PERSON TO THE PRACTICE",
+      title: "A foundation in the making.",
+      accent: "See where I’m learning.",
+      to: "/clinical",
+      button: "Explore clinical training",
+    },
+    "/clinical": {
+      label: "BEHIND THE SUBJECTS AND SKILLS",
+      title: "Learning has a human side.",
+      accent: "See it in the moments.",
+      to: "/gallery",
+      button: "Open the photo diary",
+    },
+    "/focus": {
+      label: "A SHARED CURIOSITY IS A BEGINNING",
+      title: "Interested in the same field?",
+      accent: "Let’s exchange ideas.",
+      to: "/contact",
+      button: "Start a conversation",
+    },
+    "/gallery": {
+      label: "EVERY PHOTO LEAVES AN IMPRESSION",
+      title: "A moment caught your eye?",
+      accent: "I’d love to hear from you.",
+      to: "/contact",
+      button: "Leave me a note",
+    },
+  };
+  const invitation = invitations[pathname];
+  if (!invitation) return null;
   return (
     <section className="connect-band container">
       <Reveal className="connect-band-inner">
         <div>
-          <Eyebrow>GOOD CONVERSATIONS BEGIN WITH HELLO</Eyebrow>
+          <Eyebrow>{invitation.label}</Eyebrow>
           <h2>
-            Let’s learn. Let’s connect.
+            {invitation.title}
             <br />
-            <em>Let’s make a difference.</em>
+            <em>{invitation.accent}</em>
           </h2>
         </div>
-        <ButtonLink to="/contact">Say hello</ButtonLink>
+        <ButtonLink to={invitation.to}>{invitation.button}</ButtonLink>
         <span className="band-spark" aria-hidden="true">
           ✳
         </span>
@@ -355,8 +388,8 @@ export function Footer() {
           <div>
             <Brand />
             <p>
-              A curious mind. A caring heart.
-              <br />A meaningful journey in dentistry.
+              Dentistry, with intention.
+              <br />A student’s perspective.
             </p>
           </div>
           <div className="footer-links">
@@ -368,8 +401,8 @@ export function Footer() {
           </div>
           <div className="footer-contact">
             <span className="eyebrow">LET’S CONNECT</span>
-            <a href="mailto:saniyaafreen@gmail.com">
-              saniyaafreen@gmail.com <ArrowUpRight size={15} />
+            <a href="mailto:mdsaniyaafreen@gmail.com">
+              mdsaniyaafreen@gmail.com <ArrowUpRight size={15} />
             </a>
             <a href="tel:+917680042627">+91 76800 42627</a>
             <span className="footer-location">

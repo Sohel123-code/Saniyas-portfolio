@@ -24,8 +24,14 @@ for (const [name, viewport] of [
       const rect = el.getBoundingClientRect();
       const overlay = el.parentElement.getBoundingClientRect();
       return {
-        covered: rect.left <= 0 && rect.top <= 0 && rect.right >= innerWidth - 1 && rect.bottom >= innerHeight - 1 && overlay.right >= innerWidth - 1,
-        layer: rect.toJSON(), overlay: overlay.toJSON(),
+        covered:
+          rect.left <= 0 &&
+          rect.top <= 0 &&
+          rect.right >= innerWidth - 1 &&
+          rect.bottom >= innerHeight - 1 &&
+          overlay.right >= innerWidth - 1,
+        layer: rect.toJSON(),
+        overlay: overlay.toJSON(),
         viewport: [innerWidth, innerHeight],
         rootWidth: document.documentElement.clientWidth,
         rootBounds: document.documentElement.getBoundingClientRect().toJSON(),

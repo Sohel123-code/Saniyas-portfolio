@@ -193,6 +193,15 @@ export const interests = [
 
 export const gallery = [
   {
+    image: "oral-examination",
+    title: "Care, close to home",
+    category: "Patient care",
+    description:
+      "A special moment in Saniya’s clinical journey: caring for her mother during supervised dental training.",
+    alt: "Saniya providing dental care to her mother in the teaching clinic",
+    letterbox: true,
+  },
+  {
     image: "patient-care",
     title: "The human side of dentistry",
     category: "Patient care",
@@ -201,15 +210,7 @@ export const gallery = [
     alt: "Saniya beside a patient in the dental teaching clinic",
     letterbox: false,
   },
-  {
-    image: "oral-examination",
-    title: "Learning, one examination at a time",
-    category: "Clinical learning",
-    description:
-      "Developing oral examination skills as part of supervised BDS clinical training.",
-    alt: "Saniya wearing gloves and a mask during an oral examination",
-    letterbox: true,
-  },
+
   {
     image: "chairside-learning",
     title: "A closer look at chairside learning",

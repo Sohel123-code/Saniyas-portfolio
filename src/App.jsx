@@ -33,7 +33,6 @@ import {
   Page,
   Reveal,
   ButtonLink,
-  TextLink,
   Eyebrow,
   Portrait,
   PageIntro,
@@ -124,148 +123,66 @@ function Home() {
           </span>
         </div>
       </div>
-      <section className="home-about section container">
-        <Reveal className="about-photo-stack">
-          <div className="about-image-wrap">
-            <Portrait
-              name="saniya-campus"
-              alt="Saniya studying dentistry with books and notes"
-            />
-          </div>
-          <div className="photo-caption">
-            <span>01 / A LITTLE ABOUT ME</span>
-            <span>More than a white coat.</span>
-          </div>
-          <div className="small-note">
-            <HeartHandshake size={25} />
+      <section className="home-chapters section container">
+        <Reveal className="home-chapters-intro">
+          <Eyebrow>A PERSONAL SPACE, AN UNFOLDING STORY</Eyebrow>
+          <h2>
+            Pick a chapter.
+            <br />
+            <em>Follow your curiosity.</em>
+          </h2>
+          <p>
+            There’s more than one way into this story. Start with the person,
+            follow the learning, or simply say hello.
+          </p>
+          <div className="home-chapter-seal">
+            <Tooth size={34} />
             <span>
-              People first.
+              ONE JOURNEY.
               <br />
-              Always.
+              MANY CHAPTERS.
             </span>
           </div>
         </Reveal>
-        <Reveal className="home-about-copy">
-          <Eyebrow>THE PERSON BEHIND THE PURPOSE</Eyebrow>
-          <h2>
-            Learning the science.
-            <br />
-            <em>Keeping the heart.</em>
-          </h2>
-          <p>
-            I’m a final-year Bachelor of Dental Surgery student at GITAM,
-            Visakhapatnam, discovering how knowledge, careful observation, and a
-            little kindness can come together in dentistry.
-          </p>
-          <p>
-            With a growing interest in oral oncology, I’m building my clinical
-            foundation today for a future dedicated to meaningful patient care.
-          </p>
-          <TextLink to="/about">A little more about me</TextLink>
-        </Reveal>
-      </section>
-      <section className="home-clinical section">
-        <div className="container">
-          <Reveal className="section-heading">
-            <div>
-              <Eyebrow>LEARNING THROUGH EXPERIENCE</Eyebrow>
-              <h2>
-                Small steps.
-                <br />
-                <em>A growing clinical world.</em>
-              </h2>
-            </div>
-            <div>
-              <p>
-                Every subject, every observation, and every patient interaction
-                adds something to the journey.
-              </p>
-              <TextLink to="/clinical">Explore all 16 areas</TextLink>
-            </div>
-          </Reveal>
-          <div className="clinical-preview">
-            {clinicalAreas.slice(0, 4).map((area, i) => (
-              <Reveal key={area.title} delay={i * 0.06}>
-                <ClinicalCard area={area} index={i} />
-              </Reveal>
-            ))}
-          </div>
-          <p className="supervision-note">
-            <GraduationCap size={16} /> Clinical training & areas of exposure ·
-            Learning under supervision
-          </p>
-        </div>
-      </section>
-      <section className="focus-feature section container">
-        <Reveal className="focus-feature-inner">
-          <div className="focus-feature-copy">
-            <Eyebrow light>MY FUTURE FOCUS</Eyebrow>
-            <h2>
-              A bigger purpose.
-              <br />
-              <em>Beyond the smile.</em>
-            </h2>
-            <p>
-              Oral oncology is where my curiosity meets my ambition. I aspire to
-              deepen my understanding of early detection, prevention, and
-              compassionate care.
-            </p>
-            <ButtonLink className="button-light" to="/focus">
-              Discover my future focus
-            </ButtonLink>
-          </div>
-          <div className="focus-art" aria-hidden="true">
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <div className="orbit orbit-three" />
-            <div className="focus-art-center">
-              <Ribbon strokeWidth={1} size={90} />
-            </div>
-            <span className="art-label art-label-one">AWARENESS</span>
-            <span className="art-label art-label-two">EMPATHY</span>
-            <span className="art-label art-label-three">EARLY DETECTION</span>
-            <span className="orbit-dot" />
-          </div>
-          <span className="focus-bottom-label">
-            A LONG-TERM ASPIRATION. A DAILY MOTIVATION.
-          </span>
-        </Reveal>
-      </section>
-      <section className="home-gallery section container">
-        <Reveal className="section-heading">
-          <div>
-            <Eyebrow>LITTLE MOMENTS, MEANINGFUL LESSONS</Eyebrow>
-            <h2>
-              Life in <em>the learning.</em>
-            </h2>
-          </div>
-          <TextLink to="/gallery">View the gallery</TextLink>
-        </Reveal>
-        <div className="gallery-preview">
-          {[gallery[0], gallery[2], gallery[4]].map((item, i) => (
-            <Reveal key={item.image} delay={i * 0.08}>
-              <Link to="/gallery" className="gallery-preview-card">
-                <div className="gallery-image-wrap">
-                  <img
-                    className={item.letterbox ? "letterboxed" : ""}
-                    src={`/images/${item.image}.webp`}
-                    alt={item.alt}
-                    loading="lazy"
-                    width="570"
-                    height="760"
-                  />
-                  <span className="gallery-arrow">
-                    <ArrowUpRight size={22} />
-                  </span>
+        <div className="home-chapter-links">
+          {[
+            ["/about", "The person", "Meet the person behind the white coat."],
+            [
+              "/clinical",
+              "The practice",
+              "Step inside the student learning experience.",
+            ],
+            [
+              "/focus",
+              "The possibility",
+              "Look ahead to a field that inspires me.",
+            ],
+            [
+              "/gallery",
+              "The moments",
+              "See the photographs that tell their own stories.",
+            ],
+            [
+              "/contact",
+              "The conversation",
+              "A place for your ideas, questions, and hellos.",
+            ],
+          ].map(([to, title, description], index) => (
+            <Reveal key={to} delay={index * 0.08}>
+              <Link to={to} className="home-chapter-link">
+                <span className="home-chapter-number">0{index + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
                 </div>
-                <span className="gallery-category">{item.category}</span>
-                <h3>{item.title}</h3>
+                <span className="home-chapter-arrow">
+                  <ArrowUpRight size={22} />
+                </span>
               </Link>
             </Reveal>
           ))}
         </div>
       </section>
-      <ConnectBand />
     </Page>
   );
 }
@@ -310,9 +227,9 @@ function About() {
             in the diagnosis, prevention, and management of oral cancers.
           </p>
           <blockquote>
-            “Learn. Diagnose. Care.
+            Clinical knowledge.
             <br />
-            <em>Make a Difference.</em>”
+            <em>Empathy. Continuous learning.</em>
           </blockquote>
           <p>
             Dentistry is not only about treating dental conditions—it is also
@@ -876,12 +793,12 @@ function Contact() {
     const values = new FormData(e.currentTarget);
     const subject = `${values.get("topic")} — ${values.get("name")}`;
     const body = `Hi Saniya,\n\n${values.get("message")}\n\nBest,\n${values.get("name")}\n${values.get("email")}`;
-    window.location.href = `mailto:saniyaafreen@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:mdsaniyaafreen@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setPrepared(true);
   }
   async function copyEmail() {
     try {
-      await navigator.clipboard.writeText("saniyaafreen@gmail.com");
+      await navigator.clipboard.writeText("mdsaniyaafreen@gmail.com");
       setCopied(true);
       setCopyFailed(false);
     } catch {
@@ -899,12 +816,14 @@ function Contact() {
       <section className="contact-layout container">
         <Reveal className="contact-details">
           <div className="contact-person">
-            <Portrait
-              name="saniya-professional"
-              eager
-              alt="Professional portrait of Saniya Afreen"
-              sizes="100px"
-            />
+            <div className="contact-portrait">
+              <Portrait
+                name="saniya-professional"
+                eager
+                alt="Saniya Afreen wearing a navy suit"
+                sizes="(max-width: 480px) 90vw, 380px"
+              />
+            </div>
             <div>
               <h2>Mohamed Saniya Afreen</h2>
               <p>BDS Final-Year Student</p>
@@ -917,8 +836,8 @@ function Contact() {
             </span>
             <div>
               <span className="eyebrow">DROP ME A LINE</span>
-              <a href="mailto:saniyaafreen@gmail.com">
-                saniyaafreen@gmail.com <ArrowUpRight size={17} />
+              <a href="mailto:mdsaniyaafreen@gmail.com">
+                mdsaniyaafreen@gmail.com <ArrowUpRight size={17} />
               </a>
               <button className="copy-email" onClick={copyEmail}>
                 {copied ? (
@@ -1032,8 +951,8 @@ function Contact() {
                 <p>
                   Your email draft is ready to open. If your email app didn’t
                   launch, write directly to{" "}
-                  <a href="mailto:saniyaafreen@gmail.com">
-                    saniyaafreen@gmail.com
+                  <a href="mailto:mdsaniyaafreen@gmail.com">
+                    mdsaniyaafreen@gmail.com
                   </a>
                   .
                 </p>

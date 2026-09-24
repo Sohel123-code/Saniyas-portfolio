@@ -15,12 +15,12 @@ Open the local URL printed by Vite. The development server also provides a netwo
 
 ## Pages
 
-- `/` — Introduction, clinical highlights, future focus, and activity previews.
+- `/` — A personal welcome and an original chapter directory, without duplicated biography, clinical cards, oncology text, or gallery previews.
 - `/about` — Personal story, education timeline, skill tabs, and interests.
 - `/clinical` — All 16 clinical training areas, with search, category filters, and expandable cards.
 - `/focus` — Oral oncology interests and long-term aspirations.
-- `/gallery` — All six supplied activity photos, category filters, and an accessible keyboard-operated photo viewer.
-- `/contact` — Email and telephone links, email copying, and a form that composes an email draft.
+- `/gallery` — All six supplied activity photos, with Saniya caring for her mother first, category filters, and an accessible keyboard-operated photo viewer.
+- `/contact` — A large suit portrait, email and telephone links, email copying, and a form that composes an email draft to `mdsaniyaafreen@gmail.com`.
 
 The contact form uses `mailto:` to open the visitor’s email application. It does not store messages or send email from a server. Visitors review and send the draft themselves.
 
@@ -29,7 +29,7 @@ The contact form uses `mailto:` to open the visitor’s email application. It do
 - Edit clinical areas, skills, interests, and gallery captions in `src/data.js`.
 - Page content is in `src/App.jsx`; shared components are in `src/components.jsx`.
 - Responsive styles and animation preferences are in `src/styles.css`.
-- All five supplied portraits and six clinical photographs are used. The original files remain in `photos_personal/` and `activities/`.
+- The site uses supplied personal portraits and all six clinical photographs. The original files remain in `photos_personal/` and `activities/`.
 - Optimized WebP images are included in `public/images/`. To regenerate them from the originals, run `npm run prepare:images`.
 - The education dates and final-year status reflect the supplied content.
 

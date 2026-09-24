@@ -5,6 +5,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 await mkdir("test-results/visual", { recursive: true });
 const browser = await chromium.launch({ channel: "chrome" });
 const report = [];
+const requestedRoutes = process.argv
+  .slice(2)
+  .filter((arg) => arg.startsWith("/"));
+const screenshotsOnly = process.argv.includes("--screenshots-only");
 for (const [name, viewport] of [
   ["desktop", { width: 1440, height: 1000 }],
   ["mobile", { width: 390, height: 844 }],
@@ -14,14 +18,9 @@ for (const [name, viewport] of [
     reducedMotion: "reduce",
   });
   const page = await context.newPage();
-  for (const route of [
-    "/",
-    "/about",
-    "/clinical",
-    "/focus",
-    "/gallery",
-    "/contact",
-  ]) {
+  for (const route of requestedRoutes.length
+    ? requestedRoutes
+    : ["/", "/about", "/clinical", "/focus", "/gallery", "/contact"]) {
     await page.goto(`http://127.0.0.1:5173${route}`);
     await page.evaluate(async () => {
       await document.fonts.ready;
@@ -37,7 +36,7 @@ for (const [name, viewport] of [
     });
     if (route === "/")
       await page.screenshot({ path: `test-results/visual/${name}-hero.png` });
-    if (name === "desktop" || name === "mobile") {
+    if (!screenshotsOnly) {
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
         .analyze();
