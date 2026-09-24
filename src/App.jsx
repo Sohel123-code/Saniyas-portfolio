@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import PageTransition from "./PageTransition";
+import Chatbot from "./Chatbot";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -41,6 +42,9 @@ import {
   Tooth,
 } from "./components";
 import { clinicalAreas, skills, interests, gallery } from "./data";
+import { saniyaProfile, clinicalPrinciples, focusDirections } from "./profile";
+
+const { contact } = saniyaProfile;
 
 function Home() {
   return (
@@ -216,28 +220,21 @@ function About() {
             <br />
             <em>With purpose.</em>
           </h2>
+          {saniyaProfile.biography.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
           <p>
-            I’m Mohamed Saniya Afreen, a passionate final-year Bachelor of
-            Dental Surgery student at GITAM, Visakhapatnam, with a growing
-            interest in oral oncology and comprehensive patient care.
-          </p>
-          <p>
-            I’m developing clinical knowledge and practical skills across
-            multiple areas of dentistry, with a long-term goal of specializing
-            in the diagnosis, prevention, and management of oral cancers.
+            Date of birth:{" "}
+            <time dateTime={saniyaProfile.dateOfBirth.iso}>
+              {saniyaProfile.dateOfBirth.display}
+            </time>
           </p>
           <blockquote>
             Clinical knowledge.
             <br />
             <em>Empathy. Continuous learning.</em>
           </blockquote>
-          <p>
-            Dentistry is not only about treating dental conditions—it is also
-            about prevention, awareness, early diagnosis, and helping patients
-            maintain better overall oral health. I aim to combine clinical
-            knowledge with empathy and continuous learning throughout my
-            professional journey.
-          </p>
+          <p>{saniyaProfile.philosophy}</p>
           <div className="signature">
             Saniya Afreen <Heart size={22} strokeWidth={1.3} />
           </div>
@@ -263,32 +260,25 @@ function About() {
             />
           </Reveal>
           <div className="timeline">
-            <Reveal className="timeline-item">
-              <span className="timeline-dot" />
-              <div className="timeline-date">
-                2023 — 2028{" "}
-                <span className="mini-pill">CURRENTLY PURSUING</span>
-              </div>
-              <h3>GITAM</h3>
-              <p className="timeline-degree">
-                Bachelor of Dental Surgery (BDS)
-              </p>
-              <p>Visakhapatnam · Final Year</p>
-            </Reveal>
-            <Reveal className="timeline-item">
-              <span className="timeline-dot" />
-              <div className="timeline-date">2020 — 2022</div>
-              <h3>Aakash Institute</h3>
-              <p className="timeline-degree">Intermediate — BiPC</p>
-              <p>Gajuwaka</p>
-            </Reveal>
-            <Reveal className="timeline-item">
-              <span className="timeline-dot" />
-              <div className="timeline-date">WHERE IT ALL BEGAN</div>
-              <h3>Siva Sivani Public School</h3>
-              <p className="timeline-degree">School Education</p>
-              <p>Ukkunagaram, Visakhapatnam</p>
-            </Reveal>
+            {saniyaProfile.education.map((education) => (
+              <Reveal className="timeline-item" key={education.institution}>
+                <span className="timeline-dot" />
+                <div className="timeline-date">
+                  {education.years || "WHERE IT ALL BEGAN"}{" "}
+                  {education.status && (
+                    <span className="mini-pill">
+                      {education.status.toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <h3>{education.institution}</h3>
+                <p className="timeline-degree">{education.course}</p>
+                <p>
+                  {education.location}
+                  {education.stage && ` · ${education.stage}`}
+                </p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -409,11 +399,7 @@ function Clinical() {
             <strong>
               A student’s journey, one learning experience at a time.
             </strong>
-            <p>
-              These areas reflect my BDS academic and clinical exposure.
-              Practical skills are developed under supervision as part of my
-              training at GITAM.
-            </p>
+            <p>{saniyaProfile.trainingContext}</p>
           </div>
         </Reveal>
         <div className="clinical-controls">
@@ -477,29 +463,16 @@ function Clinical() {
           Knowledge, with <em>a human touch.</em>
         </h2>
         <div className="principle-grid">
-          {[
-            [
-              BookOpen,
-              "Learn thoughtfully",
-              "Connect the foundations of dentistry with everyday clinical observations.",
-            ],
-            [
-              MessageCircle,
-              "Listen with empathy",
-              "Make communication and patient understanding part of every learning experience.",
-            ],
-            [
-              HeartHandshake,
-              "Care responsibly",
-              "Develop practical skills with guidance, attention, and respect for every patient.",
-            ],
-          ].map(([Icon, title, text]) => (
-            <Reveal key={title} className="principle">
-              <Icon size={30} strokeWidth={1.3} />
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </Reveal>
-          ))}
+          {clinicalPrinciples.map(({ title, description }, index) => {
+            const Icon = [BookOpen, MessageCircle, HeartHandshake][index];
+            return (
+              <Reveal key={title} className="principle">
+                <Icon size={30} strokeWidth={1.3} />
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
       <ConnectBand />
@@ -539,19 +512,11 @@ function Focus() {
             <br />
             <em>A future to work toward.</em>
           </h2>
-          <p>
-            I’m particularly interested in oral oncology, with an ambition to
-            pursue advanced specialization in the field.
-          </p>
-          <p>
-            My interest lies in understanding the early detection, diagnosis,
-            prevention, and multidisciplinary management of oral cancers, while
-            contributing toward greater awareness of oral health and cancer
-            prevention.
-          </p>
+          {saniyaProfile.futureFocus.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
           <p className="focus-statement">
-            For me, this is a long-term goal that gives meaning to what I’m
-            learning today.
+            {saniyaProfile.futureFocusStatement}
           </p>
           <div className="aspiration-note">
             <Sparkles size={19} />
@@ -570,41 +535,19 @@ function Focus() {
             <em>One meaningful ambition.</em>
           </h2>
           <div className="focus-pillar-grid">
-            {[
-              [
-                Search,
-                "01",
-                "Early detection",
-                "Developing an interest in careful observation and the role of early diagnosis in oral oncology.",
-              ],
-              [
-                ShieldCheck,
-                "02",
-                "Prevention & awareness",
-                "Exploring how patient education and oral health awareness can contribute to prevention.",
-              ],
-              [
-                Dna,
-                "03",
-                "Understanding the science",
-                "Building a foundation in oral pathology, cancer biology, and dental research.",
-              ],
-              [
-                Users,
-                "04",
-                "Care that connects",
-                "Learning about multidisciplinary care and the importance of empathy throughout the patient journey.",
-              ],
-            ].map(([Icon, num, title, description]) => (
-              <Reveal className="focus-pillar" key={num}>
-                <div>
-                  <Icon size={29} strokeWidth={1.3} />
-                  <span>{num}</span>
-                </div>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </Reveal>
-            ))}
+            {focusDirections.map(({ title, description }, index) => {
+              const Icon = [Search, ShieldCheck, Dna, Users][index];
+              return (
+                <Reveal className="focus-pillar" key={title}>
+                  <div>
+                    <Icon size={29} strokeWidth={1.3} />
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -793,12 +736,12 @@ function Contact() {
     const values = new FormData(e.currentTarget);
     const subject = `${values.get("topic")} — ${values.get("name")}`;
     const body = `Hi Saniya,\n\n${values.get("message")}\n\nBest,\n${values.get("name")}\n${values.get("email")}`;
-    window.location.href = `mailto:mdsaniyaafreen@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setPrepared(true);
   }
   async function copyEmail() {
     try {
-      await navigator.clipboard.writeText("mdsaniyaafreen@gmail.com");
+      await navigator.clipboard.writeText(contact.email);
       setCopied(true);
       setCopyFailed(false);
     } catch {
@@ -825,7 +768,7 @@ function Contact() {
               />
             </div>
             <div>
-              <h2>Mohamed Saniya Afreen</h2>
+              <h2>{saniyaProfile.name}</h2>
               <p>BDS Final-Year Student</p>
               <span>GITAM, Visakhapatnam</span>
             </div>
@@ -836,8 +779,8 @@ function Contact() {
             </span>
             <div>
               <span className="eyebrow">DROP ME A LINE</span>
-              <a href="mailto:mdsaniyaafreen@gmail.com">
-                mdsaniyaafreen@gmail.com <ArrowUpRight size={17} />
+              <a href={`mailto:${contact.email}`}>
+                {contact.email} <ArrowUpRight size={17} />
               </a>
               <button className="copy-email" onClick={copyEmail}>
                 {copied ? (
@@ -863,8 +806,8 @@ function Contact() {
             </span>
             <div>
               <span className="eyebrow">LET’S TALK</span>
-              <a href="tel:+917680042627">
-                +91 76800 42627 <ArrowUpRight size={17} />
+              <a href={`tel:${contact.telephone}`}>
+                {contact.phone} <ArrowUpRight size={17} />
               </a>
             </div>
           </div>
@@ -880,10 +823,7 @@ function Contact() {
           </div>
           <div className="contact-aside">
             <Heart size={20} />
-            <p>
-              Open to meaningful conversations around dentistry, oral oncology,
-              research, and learning opportunities.
-            </p>
+            <p>{contact.invitation}</p>
           </div>
         </Reveal>
         <Reveal className="contact-form-wrap">
@@ -951,10 +891,7 @@ function Contact() {
                 <p>
                   Your email draft is ready to open. If your email app didn’t
                   launch, write directly to{" "}
-                  <a href="mailto:mdsaniyaafreen@gmail.com">
-                    mdsaniyaafreen@gmail.com
-                  </a>
-                  .
+                  <a href={`mailto:${contact.email}`}>{contact.email}</a>.
                 </p>
               </div>
             )}
@@ -1006,6 +943,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
+          <Chatbot />
         </>
       )}
     </PageTransition>

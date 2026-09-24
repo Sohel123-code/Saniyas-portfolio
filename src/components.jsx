@@ -13,6 +13,7 @@ import {
   Minus,
 } from "lucide-react";
 import { navigation, pageTitles } from "./data";
+import { saniyaProfile } from "./profile";
 import { usePageTransition } from "./PageTransition";
 
 export function Tooth({ size = 28, ...props }) {
@@ -401,10 +402,12 @@ export function Footer() {
           </div>
           <div className="footer-contact">
             <span className="eyebrow">LET’S CONNECT</span>
-            <a href="mailto:mdsaniyaafreen@gmail.com">
-              mdsaniyaafreen@gmail.com <ArrowUpRight size={15} />
+            <a href={`mailto:${saniyaProfile.contact.email}`}>
+              {saniyaProfile.contact.email} <ArrowUpRight size={15} />
             </a>
-            <a href="tel:+917680042627">+91 76800 42627</a>
+            <a href={`tel:${saniyaProfile.contact.telephone}`}>
+              {saniyaProfile.contact.phone}
+            </a>
             <span className="footer-location">
               <MapPin size={14} /> Visakhapatnam, India
             </span>

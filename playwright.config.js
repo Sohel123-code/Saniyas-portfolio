@@ -2,12 +2,13 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
+  testMatch: "**/*.spec.js",
   fullyParallel: false,
   workers: 1,
   timeout: 30000,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:5173",
     channel: "chrome",
     screenshot: "only-on-failure",
     trace: "retain-on-failure",

@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "prepare:images": "node scripts/prepare-images.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:chat": "node --test tests/chat-server.test.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.6",

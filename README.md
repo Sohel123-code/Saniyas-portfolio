@@ -26,7 +26,8 @@ The contact form uses `mailto:` to open the visitor’s email application. It do
 
 ## Content and images
 
-- Edit clinical areas, skills, interests, and gallery captions in `src/data.js`.
+- Edit shared biography, date of birth, education, philosophy, focus directions, and contact details in `src/profile.js`. These facts feed both the pages and the chatbot.
+- Edit clinical areas, skills, interests, and gallery captions in `src/data.js`; the chatbot also receives every card summary, category, description, and gallery caption from this file.
 - Page content is in `src/App.jsx`; shared components are in `src/components.jsx`.
 - Responsive styles and animation preferences are in `src/styles.css`.
 - The site uses supplied personal portraits and all six clinical photographs. The original files remain in `photos_personal/` and `activities/`.
@@ -40,7 +41,19 @@ npm run build
 npm run preview
 ```
 
-Deploy the `dist/` directory to a static host. React Router requires an SPA fallback to `index.html` for direct visits to interior pages. Netlify’s `public/_redirects` and a Vercel rewrite configuration are included. No deployment or external account is required to run locally.
+Deploy to Vercel or Netlify with the included configuration to run both the site and chatbot. Set `GROQ_API_KEY` (or the existing `API_KEY`) as a server environment variable on the host. Vercel uses `api/chat.js`; Netlify uses `netlify/functions/chat.mjs`. A static-only upload of `dist/` serves the portfolio but cannot run the chatbot API. React Router fallbacks are included. No deployment is needed to run locally.
+
+## Saniya’s AI portfolio guide
+
+The floating chat is available on every page, with question suggestions, follow-up context, a typing indicator, retry controls, a new-chat button, and a responsive dialog. It uses Groq’s `openai/gpt-oss-20b` by default, verified against the models available to the configured key. This is a portfolio-grounded assistant, not a fine-tuned model: `server/knowledge.js` combines the shared facts from `src/profile.js` and `src/data.js` on every request. It includes her biography, birthday (4 February 2005, supplied as DD-MM-YYYY), all education entries, 16 clinical areas with full card copy, all skills and interests, philosophy, four future-focus directions, ordered gallery captions and photo descriptions, contact details, and a guide to all six pages. Age is calculated per request using the current date in India. Updated facts take priority over older chat answers. Edit the shared content files as her story changes, then rebuild/redeploy the site and server together.
+
+Your local `.env` may keep its existing `API_KEY` value. Alternatively, use `GROQ_API_KEY` as shown in `.env.example`; `GROQ_MODEL` is optional. Restart Vite after changing environment variables. Both `npm run dev` and `npm run preview` provide `/api/chat`. Never give the key a `VITE_` prefix: it must stay on the server.
+
+The assistant is instructed to use supplied facts, acknowledge missing information, describe Saniya as a student, and avoid personalized medical advice. Answers are AI-generated and may contain mistakes. The site keeps conversation history only in the current tab’s React memory; closing the chat or changing pages preserves it, while New chat or reloading clears it. Up to six recent exchanges and the new question are sent to Groq with the public portfolio facts. The site does not write conversations to a database or logs; provider data handling is separate.
+
+The API validates message roles, lengths, request origins, and body size, times out upstream calls, and returns safe errors. It limits requests to 12 per minute per client IP per running instance. For a high-traffic public deployment, add host-level rate limiting because serverless instances do not share this memory counter.
+
+Run `npm run test:chat` for backend validation and error-handling tests. Browser chatbot tests use mocked API replies, so they do not consume provider credits. To test against a different preview port, set `PLAYWRIGHT_BASE_URL` before `npm run test:e2e`.
 
 ## Verification
 
